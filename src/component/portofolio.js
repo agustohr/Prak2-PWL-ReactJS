@@ -1,6 +1,43 @@
 import React, { useState, useEffect } from 'react'
 import { createUseStyles } from 'react-jss';
+import { Routes, Route, Link, } from "react-router-dom"
+import Deskripsi from '../pages/deskripsi';
 
+const Portofolio = () => {
+    const [daftar, setDaftar] = useState([]);
+
+    useEffect(() => {
+        async function getDaftar() {
+            const response = await fetch("https://server-agustohawlai.herokuapp.com/api/projects");
+            const json = await response.json();
+            setDaftar(json.data)
+        }
+        getDaftar()
+    }, []);
+
+    const classes = styles();
+
+    return (
+        <div id="portofolio" className={classes.wrapbig}>
+            <h2 className={classes.title}>PORTOFOLIO</h2>
+            <div className={classes.baris}>
+                {daftar.map((item, index) => (
+                    <div key={index} className={classes.kolom}>
+                        <h4>Project {index + 1}</h4>
+                        <div>
+                            <img className={classes.gambar} src={item.image} />
+                        </div>
+                        <hr></hr>
+                        <p>{item.nama}</p>
+                        <Link style={{ textDecoration: 'none', color: '#0f83db' }} to={`/deskripsi/${item.id}`}><b>Detail</b></Link>
+
+                    </div>
+                ))}
+            </div>
+
+        </div >
+    )
+}
 const styles = createUseStyles({
     baris: {
         // flexDirection: 'row',
@@ -35,7 +72,7 @@ const styles = createUseStyles({
         },
         // flex: 1,
         backgroundColor: 'white',
-        borderRadius: 20,
+        borderRadius: 5,
         "&:hover": {
             background: "#efefef",
             padding: {
@@ -50,36 +87,10 @@ const styles = createUseStyles({
             bottom: 10
         },
         maxWidth: 300,
-
+        minHeight: 400
     },
     title: {
         textAlign: 'center'
     }
 });
-const Portofolio = () => {
-    const [daftar] = useState(['Website', 'Fotografi', 'Lukisan']);
-    const [images] = useState([require('../assets/p1.jpg'), require('../assets/p2.jpg'), require('../assets/p3.jpg')])
-    // console.log(images)
-    console.log(images[3])
-    const classes = styles();
-    return (
-        <div id="portofolio" className={classes.wrapbig}>
-            <h2 className={classes.title}>PORTOFOLIO</h2>
-            <div className={classes.baris}>
-                {daftar.map((item, index) => (
-                    <div key={index} className={classes.kolom}>
-                        <h4>Project {index + 1}</h4>
-                        <div>
-                            <img className={classes.gambar} src={images[index]} />
-                        </div>
-                        <hr></hr>
-                        <p>{item}</p>
-                    </div>
-                ))}
-            </div>
-
-        </div >
-    )
-}
-
 export default Portofolio

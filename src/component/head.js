@@ -63,6 +63,7 @@ function Head() {
     const classes = styles()
     return (
         <div className={classes.latar} style={{ backgroundImage: `url(${bg})`, backgroundRepeat: 'no-repeat', }} >
+            
             <div id="about" className={classes.bungkus}>
 
                 <img src={picprof} alt="prof" className={classes.prof} />;

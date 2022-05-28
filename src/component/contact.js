@@ -39,7 +39,6 @@ const styles = createUseStyles({
     title: {
         textAlign: 'center'
     }
-
 });
 
 function Contact() {
